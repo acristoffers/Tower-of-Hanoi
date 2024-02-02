@@ -29,7 +29,7 @@ class Peg extends StatefulWidget {
   final double width;
   final int peg;
 
-  Peg(this.width, this.peg, {Key key}) : super(key: key);
+  Peg(this.width, this.peg, {Key? key}) : super(key: key);
 
   @override
   _PegState createState() => _PegState();
@@ -50,8 +50,13 @@ class _PegState extends State<Peg> {
               }
             },
             onWillAccept: (n) {
-              return state.pegs[widget.peg].top > n ||
-                  state.pegs[widget.peg].top == 0;
+              PegState? peg = state.pegs[widget.peg];
+
+              if (peg == null || n == null) {
+                return false;
+              }
+
+              return peg.top > n || peg.top == 0;
             },
             onAccept: (n) => state.move(n, widget.peg),
           );
@@ -75,7 +80,7 @@ class _PegState extends State<Peg> {
           Column(
             verticalDirection: VerticalDirection.up,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: _disks(state.pegs[widget.peg], size),
+            children: _disks(state.pegs[widget.peg]!, size),
           ),
         ],
       ),

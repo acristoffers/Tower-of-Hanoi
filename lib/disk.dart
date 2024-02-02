@@ -26,7 +26,7 @@ class Disk extends StatefulWidget {
   final int _n;
   final int _total;
 
-  const Disk(this._n, this._total, {Key key}) : super(key: key);
+  const Disk(this._n, this._total, {Key? key}) : super(key: key);
 
   @override
   _DiskState createState() => _DiskState(_n, _total);

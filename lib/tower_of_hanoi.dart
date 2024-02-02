@@ -21,7 +21,6 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tower_of_hanoi/peg.dart';
 import 'package:tower_of_hanoi/state.dart';
@@ -59,14 +58,12 @@ class _TowerOfHanoiState extends State<TowerOfHanoi> {
       height: 48,
       child: Row(
         children: <Widget>[
-          FlatButton(
-            color: Colors.indigo,
+          TextButton(
             child: Text('Reset'),
             onPressed: () => state.reset(),
           ),
           Container(width: 8),
-          FlatButton(
-            color: Colors.indigo,
+          TextButton(
             child: state.stopped ? Text('Solve') : Text('Stop'),
             onPressed: () {
               if (state.stopped) {

@@ -31,7 +31,7 @@ class TowerState extends ChangeNotifier {
     };
   }
 
-  Map<int, PegState> _pegs;
+  late Map<int, PegState> _pegs;
   Map<int, PegState> get pegs => _pegs;
   int get size {
     return pegs.values.map((p) => p.stack.length).fold(0, (a, b) => a + b);
@@ -45,15 +45,15 @@ class TowerState extends ChangeNotifier {
   int get moves => _moves;
 
   void move(n, to) {
-    if (pegs[1].stack.contains(n)) {
-      pegs[1].stack.removeLast();
-      pegs[to].stack.add(n);
-    } else if (pegs[2].stack.contains(n)) {
-      pegs[2].stack.removeLast();
-      pegs[to].stack.add(n);
+    if (pegs[1]!.stack.contains(n)) {
+      pegs[1]!.stack.removeLast();
+      pegs[to]!.stack.add(n);
+    } else if (pegs[2]!.stack.contains(n)) {
+      pegs[2]!.stack.removeLast();
+      pegs[to]!.stack.add(n);
     } else {
-      pegs[3].stack.removeLast();
-      pegs[to].stack.add(n);
+      pegs[3]!.stack.removeLast();
+      pegs[to]!.stack.add(n);
     }
 
     _moves++;
@@ -61,11 +61,11 @@ class TowerState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void reset([int size]) {
+  void reset([int? size]) {
     _moves = 0;
     _running = false;
     _pegs = {
-      1: PegState(init: true, npegs: size != null ? size : this.size),
+      1: PegState(init: true, npegs: size ?? this.size),
       2: PegState(),
       3: PegState(),
     };
@@ -81,12 +81,12 @@ class TowerState extends ChangeNotifier {
     });
   }
 
-  Future<void> _move(int o, int d, [int n]) async {
-    if (n == null) n = pegs[o].stack.length;
+  Future<void> _move(int o, int d, [int? n]) async {
     int v = 6 - o - d;
+    n = n ?? pegs[o]!.stack.length;
     if (n != 0) {
       if (_running) await _move(o, v, n - 1);
-      if (_running) move(pegs[o].top, d);
+      if (_running) move(pegs[o]!.top, d);
       await Future.delayed(Duration(milliseconds: 200));
       if (_running) await _move(v, d, n - 1);
     }
